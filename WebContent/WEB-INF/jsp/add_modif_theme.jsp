@@ -1,0 +1,31 @@
+<%@ page pageEncoding="UTF-8" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+
+<%@ include file="/WEB-INF/jsp/includes/role_carrieres.jsp" %>
+
+<html>
+<head>
+    <title>Ajout ou modification d'un th&egrave;me</title>
+    <link href="style/style.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+
+<%@ include file="/WEB-INF/jsp/includes/header_menu.jsp" %>
+
+<form:form method="post">
+<fieldset>
+<legend>Th&egrave;me</legend>
+    <div class="ligne">
+        <span class="label">Libell&eacute; :</span>
+        <form:input path="libelle" maxlength="128" />
+        <form:errors path="libelle" cssClass="error"/>
+    </div>
+    <div class="ligne">
+        <span class="label">&nbsp;</span>
+        <a href="liste_themes.htm">Retour</a>&nbsp;-&nbsp;<input type="submit" value="Valider" />
+    </div>
+</fieldset>
+</form:form>
+
+</body>
+</html>

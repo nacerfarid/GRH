@@ -1,0 +1,355 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+       http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd">
+ 
+ 	<!-- Controllers -->
+	<bean name="/accueil.htm" class="web.consultation.AccueilController"/>
+	<bean name="/accueil_rh.htm" class="web.consultation.AccueilRHController"/>
+	<bean name="/erreur_droit.htm" class="web.consultation.ErreurDroitController"/>
+	<bean name="/identification.htm" class="web.consultation.IdentificationController">
+		<property name="commandClass" value="entities.Utilisateur" />
+		<property name="formView" value="identification" />
+		<property name="successView" value="accueil_rh.htm" />
+		<property name="validator" ref="identificationValidator" />
+		<property name="su" ref="serviceUtilisateur" />
+	</bean>
+	<bean name="/logout.htm" class="web.consultation.LogoutController"/>
+	<bean name="/liste_utilisateurs.htm" class="web.administration.ListeUtilisateursController">
+		<property name="su" ref="serviceUtilisateur" />
+	</bean>
+	<bean name="/add_utilisateur.htm" class="web.administration.AddUtilisateurController">
+		<property name="commandClass" value="entities.Utilisateur" />
+		<property name="formView" value="add_modif_utilisateur" />
+		<property name="successView" value="liste_utilisateurs.htm" />
+		<property name="validator" ref="addModifUtilisateurValidator" />
+		<property name="su" ref="serviceUtilisateur" />
+		<property name="sd" ref="serviceDroit" />
+	</bean>
+	<bean name="/modif_utilisateur.htm" class="web.administration.ModifUtilisateurController">
+		<property name="commandClass" value="entities.Utilisateur" />
+		<property name="formView" value="add_modif_utilisateur" />
+		<property name="successView" value="liste_utilisateurs.htm" />
+		<property name="validator" ref="addModifUtilisateurValidator" />
+		<property name="su" ref="serviceUtilisateur" />
+		<property name="sd" ref="serviceDroit" />
+	</bean>
+	<bean name="/suppr_utilisateur.htm" class="web.administration.SupprUtilisateurController">
+		<property name="su" ref="serviceUtilisateur" />
+	</bean>
+	<bean name="/liste_themes.htm" class="web.carrieres.ListeThemesController">
+		<property name="st" ref="serviceTheme" />
+	</bean>
+	<bean name="/add_theme.htm" class="web.carrieres.AddThemeController">
+		<property name="commandClass" value="entities.Theme" />
+		<property name="formView" value="add_modif_theme" />
+		<property name="successView" value="liste_themes.htm" />
+		<property name="validator" ref="addModifThemeValidator" />
+		<property name="st" ref="serviceTheme" />
+	</bean>
+	<bean name="/modif_theme.htm" class="web.carrieres.ModifThemeController">
+		<property name="commandClass" value="entities.Theme" />
+		<property name="formView" value="add_modif_theme" />
+		<property name="successView" value="liste_themes.htm" />
+		<property name="validator" ref="addModifThemeValidator" />
+		<property name="st" ref="serviceTheme" />
+	</bean>
+	<bean name="/suppr_theme.htm" class="web.carrieres.SupprThemeController">
+		<property name="st" ref="serviceTheme" />
+	</bean>
+	<bean name="/liste_categories.htm" class="web.carrieres.ListeCategoriesController">
+		<property name="sc" ref="serviceCategorie" />
+	</bean>
+	<bean name="/add_categorie.htm" class="web.carrieres.AddCategorieController">
+		<property name="commandClass" value="entities.Categorie" />
+		<property name="formView" value="add_modif_categorie" />
+		<property name="successView" value="liste_categories.htm" />
+		<property name="validator" ref="addModifCategorieValidator" />
+		<property name="sc" ref="serviceCategorie" />
+		<property name="st" ref="serviceTheme" />
+	</bean>
+	<bean name="/modif_categorie.htm" class="web.carrieres.ModifCategorieController">
+		<property name="commandClass" value="entities.Categorie" />
+		<property name="formView" value="add_modif_categorie" />
+		<property name="successView" value="liste_categories.htm" />
+		<property name="validator" ref="addModifCategorieValidator" />
+		<property name="sc" ref="serviceCategorie" />
+		<property name="st" ref="serviceTheme" />
+	</bean>
+	<bean name="/suppr_categorie.htm" class="web.carrieres.SupprCategorieController">
+		<property name="sc" ref="serviceCategorie" />
+	</bean>
+	<bean name="/liste_metiers.htm" class="web.carrieres.ListeMetiersController">
+		<property name="sm" ref="serviceMetier" />
+	</bean>
+	<bean name="/add_metier.htm" class="web.carrieres.AddMetierController">
+		<property name="commandClass" value="entities.Metier" />
+		<property name="formView" value="add_modif_metier" />
+		<property name="successView" value="liste_metiers.htm" />
+		<property name="validator" ref="addModifMetierValidator" />
+		<property name="sc" ref="serviceCategorie" />
+		<property name="sm" ref="serviceMetier" />
+	</bean>
+	<bean name="/modif_metier.htm" class="web.carrieres.ModifMetierController">
+		<property name="commandClass" value="entities.Metier" />
+		<property name="formView" value="add_modif_metier" />
+		<property name="successView" value="liste_metiers.htm" />
+		<property name="validator" ref="addModifMetierValidator" />
+		<property name="sc" ref="serviceCategorie" />
+		<property name="sm" ref="serviceMetier" />
+	</bean>
+	<bean name="/suppr_metier.htm" class="web.carrieres.SupprMetierController">
+		<property name="sm" ref="serviceMetier" />
+	</bean>
+	<bean name="/liste_competences.htm" class="web.carrieres.ListeCompetencesController">
+		<property name="sc" ref="serviceCompetence" />
+	</bean>
+	<bean name="/add_competence.htm" class="web.carrieres.AddCompetenceController">
+		<property name="commandClass" value="entities.Competence" />
+		<property name="formView" value="add_modif_competence" />
+		<property name="successView" value="liste_competences.htm" />
+		<property name="validator" ref="addModifCompetenceValidator" />
+		<property name="sc" ref="serviceCompetence" />
+	</bean>
+	<bean name="/modif_competence.htm" class="web.carrieres.ModifCompetenceController">
+		<property name="commandClass" value="entities.Competence" />
+		<property name="formView" value="add_modif_competence" />
+		<property name="successView" value="liste_competences.htm" />
+		<property name="validator" ref="addModifCompetenceValidator" />
+		<property name="sc" ref="serviceCompetence" />
+	</bean>
+	<bean name="/suppr_competence.htm" class="web.carrieres.SupprCompetenceController">
+		<property name="sc" ref="serviceCompetence" />
+	</bean>
+	<bean name="/liste_postes.htm" class="web.carrieres.ListePostesController">
+		<property name="sp" ref="servicePoste" />
+	</bean>
+	<bean name="/add_poste.htm" class="web.carrieres.AddPosteController">
+		<property name="commandClass" value="entities.Poste" />
+		<property name="formView" value="add_modif_poste" />
+		<property name="successView" value="liste_postes.htm" />
+		<property name="validator" ref="addModifPosteValidator" />
+		<property name="sp" ref="servicePoste" />
+		<property name="sm" ref="serviceMetier" />
+	</bean>
+	<bean name="/modif_poste.htm" class="web.carrieres.ModifPosteController">
+		<property name="commandClass" value="entities.Poste" />
+		<property name="formView" value="add_modif_poste" />
+		<property name="successView" value="liste_postes.htm" />
+		<property name="validator" ref="addModifPosteValidator" />
+		<property name="sp" ref="servicePoste" />
+		<property name="sm" ref="serviceMetier" />
+	</bean>
+	<bean name="/suppr_poste.htm" class="web.carrieres.SupprPosteController">
+		<property name="sp" ref="servicePoste" />
+	</bean>
+ 	<bean name="/liste_employes.htm" class="web.administration.ListeEmployesController">
+		<property name="se" ref="serviceEmploye" />
+	</bean>
+	<bean name="/add_employe.htm" class="web.administration.AddEmployeController">
+		<property name="commandClass" value="entities.Employe" />
+		<property name="formView" value="add_employe" />
+		<property name="successView" value="liste_employes.htm" />
+		<property name="validator" ref="addModifEmployeValidator" />
+		<property name="se" ref="serviceEmploye" />
+		<property name="sc" ref="serviceCivilite" />
+		<property name="ssf" ref="serviceSituationFamiliale" />
+	</bean>
+	<bean name="/modif_employe.htm" class="web.administration.ModifEmployeController">
+		<property name="commandClass" value="entities.Employe" />
+		<property name="formView" value="modif_employe" />
+		<property name="successView" value="liste_employes.htm" />
+		<property name="validator" ref="addModifEmployeValidator" />
+		<property name="se" ref="serviceEmploye" />
+		<property name="sc" ref="serviceCivilite" />
+		<property name="ssf" ref="serviceSituationFamiliale" />
+		<property name="sd" ref="serviceDiplome" />
+		<property name="sep" ref="serviceEmploiPrecedent" />
+	</bean>
+	<bean name="/suppr_employe.htm" class="web.administration.SupprEmployeController">
+		<property name="se" ref="serviceEmploye" />
+	</bean>
+	<bean name="/add_diplome.htm" class="web.administration.AddDiplomeController">
+		<property name="commandClass" value="entities.Diplome" />
+		<property name="formView" value="add_modif_diplome" />
+		<property name="successView" value="modif_employe.htm" />
+		<property name="validator" ref="addModifDiplomeValidator" />
+		<property name="sd" ref="serviceDiplome" />
+		<property name="sne" ref="serviceNiveauEtude" />
+		<property name="se" ref="serviceEmploye" />
+	</bean>
+	<bean name="/modif_diplome.htm" class="web.administration.ModifDiplomeController">
+		<property name="commandClass" value="entities.Diplome" />
+		<property name="formView" value="add_modif_diplome" />
+		<property name="successView" value="modif_employe.htm" />
+		<property name="validator" ref="addModifDiplomeValidator" />
+		<property name="sd" ref="serviceDiplome" />
+		<property name="sne" ref="serviceNiveauEtude" />
+		<property name="se" ref="serviceEmploye" />
+	</bean>
+	<bean name="/suppr_diplome.htm" class="web.administration.SupprDiplomeController">
+		<property name="sd" ref="serviceDiplome" />
+	</bean>
+	<bean name="/add_emploi_precedent.htm" class="web.administration.AddEmploiPrecedentController">
+		<property name="commandClass" value="entities.EmploiPrecedent" />
+		<property name="formView" value="add_modif_emploi_precedent" />
+		<property name="successView" value="modif_employe.htm" />
+		<property name="validator" ref="addModifEmploiPrecedentValidator" />
+		<property name="sep" ref="serviceEmploiPrecedent" />
+		<property name="sc" ref="serviceContrat" />
+		<property name="se" ref="serviceEmploye" />
+	</bean>
+	<bean name="/modif_emploi_precedent.htm" class="web.administration.ModifEmploiPrecedentController">
+		<property name="commandClass" value="entities.EmploiPrecedent" />
+		<property name="formView" value="add_modif_emploi_precedent" />
+		<property name="successView" value="modif_employe.htm" />
+		<property name="validator" ref="addModifEmploiPrecedentValidator" />
+		<property name="sep" ref="serviceEmploiPrecedent" />
+		<property name="sc" ref="serviceContrat" />
+		<property name="se" ref="serviceEmploye" />
+	</bean>
+	<bean name="/suppr_emploi_precedent.htm" class="web.administration.SupprEmploiPrecedentController">
+		<property name="sep" ref="serviceEmploiPrecedent" />
+	</bean>
+	<bean name="/liste_formations.htm" class="web.formations.ListeFormationsController">
+		<property name="sf" ref="serviceFormation" />
+	</bean>
+	<bean name="/consult_formations.htm" class="web.consultation.ConsultFormationsController">
+		<property name="sf" ref="serviceFormation" />
+	</bean>
+	<bean name="/add_sync_formations.htm" class="web.formations.AddSyncFormationsController">
+		<property name="commandClass" value="entities.TextFileUploadBean" />
+		<property name="formView" value="add_sync_formations" />
+		<property name="successView" value="liste_formations.htm" />
+		<property name="validator" ref="addSyncFormationsValidator" />
+		<property name="sf" ref="serviceFormation" />
+		<property name="so" ref="serviceOrganisme" />
+		<property name="sc" ref="serviceCompetence" />
+		<property name="snf" ref="serviceNiveauForm" />
+	</bean>
+	<bean name="/details_formation.htm" class="web.formations.DetailsFormationController">
+		<property name="sf" ref="serviceFormation" />
+		<property name="so" ref="serviceOrganisme" />
+		<property name="sc" ref="serviceCompetence" />
+		<property name="snf" ref="serviceNiveauForm" />
+	</bean>
+	<bean name="/liste_plan_formations.htm" class="web.formations.ListePlanFormationsController">
+		<property name="spf" ref="servicePlanFormation" />
+		<property name="si" ref="serviceInscription" />
+	</bean>
+	<bean name="/add_plan_formation.htm" class="web.formations.AddPlanFormationController">
+		<property name="commandClass" value="entities.PlanFormation" />
+		<property name="formView" value="add_modif_plan_formation" />
+		<property name="successView" value="liste_plan_formations.htm" />
+		<property name="validator" ref="addModifPlanFormationValidator" />
+		<property name="spf" ref="servicePlanFormation" />
+	</bean>
+	<bean name="/modif_plan_formation.htm" class="web.formations.ModifPlanFormationController">
+		<property name="commandClass" value="entities.PlanFormation" />
+		<property name="formView" value="add_modif_plan_formation" />
+		<property name="successView" value="liste_plan_formations.htm" />
+		<property name="validator" ref="addModifPlanFormationValidator" />
+		<property name="spf" ref="servicePlanFormation" />
+	</bean>
+	<bean name="/suppr_plan_formation.htm" class="web.formations.SupprPlanFormationController">
+		<property name="spf" ref="servicePlanFormation" />
+	</bean>
+	<bean name="/liste_session_formations.htm" class="web.formations.ListeSessionFormationsController">
+		<property name="ssf" ref="serviceSessionFormation" />
+		<property name="si" ref="serviceInscription" />
+	</bean>
+	<bean name="/add_session_formation.htm" class="web.formations.AddSessionFormationController">
+		<property name="commandClass" value="entities.SessionFormation" />
+		<property name="formView" value="add_modif_session_formation" />
+		<property name="successView" value="liste_session_formations.htm" />
+		<property name="validator" ref="addModifSessionFormationValidator" />
+		<property name="ssf" ref="serviceSessionFormation" />
+		<property name="spf" ref="servicePlanFormation" />
+		<property name="sf" ref="serviceFormation" />
+	</bean>
+	<bean name="/modif_session_formation.htm" class="web.formations.ModifSessionFormationController">
+		<property name="commandClass" value="entities.SessionFormation" />
+		<property name="formView" value="add_modif_session_formation" />
+		<property name="successView" value="liste_session_formations.htm" />
+		<property name="validator" ref="addModifSessionFormationValidator" />
+		<property name="ssf" ref="serviceSessionFormation" />
+		<property name="spf" ref="servicePlanFormation" />
+		<property name="sf" ref="serviceFormation" />
+	</bean>
+	<bean name="/suppr_session_formation.htm" class="web.formations.SupprSessionFormationController">
+		<property name="ssf" ref="serviceSessionFormation" />
+	</bean>
+	<bean name="/liste_inscriptions.htm" class="web.formations.ListeInscriptionsController">
+		<property name="si" ref="serviceInscription" />
+		<property name="se" ref="serviceEmploye" />
+		<property name="ssf" ref="serviceSessionFormation" />
+	</bean>
+	<bean name="/add_inscription.htm" class="web.formations.AddInscriptionController">
+		<property name="commandClass" value="entities.Inscription" />
+		<property name="formView" value="add_modif_inscription" />
+		<property name="successView" value="liste_inscriptions.htm" />
+		<property name="validator" ref="addModifInscriptionValidator" />
+		<property name="si" ref="serviceInscription" />
+		<property name="se" ref="serviceEmploye" />
+		<property name="ssf" ref="serviceSessionFormation" />
+	</bean>
+	<bean name="/modif_inscription.htm" class="web.formations.ModifInscriptionController">
+		<property name="commandClass" value="entities.Inscription" />
+		<property name="formView" value="add_modif_inscription" />
+		<property name="successView" value="liste_inscriptions.htm" />
+		<property name="si" ref="serviceInscription" />
+		<property name="se" ref="serviceEmploye" />
+		<property name="ssf" ref="serviceSessionFormation" />
+	</bean>
+	<bean name="/suppr_inscription.htm" class="web.formations.SupprInscriptionController">
+		<property name="si" ref="serviceInscription" />
+	</bean>
+	<bean name="/liste_evaluations.htm" class="web.carrieres.ListeEvaluationsController">
+		<property name="se" ref="serviceEvaluation" />
+	</bean>
+	<bean name="/add_evaluation.htm" class="web.carrieres.AddEvaluationController">
+		<property name="commandClass" value="entities.Evaluation" />
+		<property name="formView" value="add_modif_evaluation" />
+		<property name="successView" value="liste_evaluations.htm" />
+		<property name="validator" ref="addModifEvaluationValidator" />
+		<property name="se" ref="serviceEvaluation" />
+		<property name="see" ref="serviceEmploye" />
+		<property name="sc" ref="serviceCompetence" />
+	</bean>
+	
+ 	<!-- Validadors -->
+ 	<bean name="identificationValidator" class="web.consultation.IdentificationValidator">
+ 		<property name="su" ref="serviceUtilisateur" />
+ 	</bean>
+ 	<bean name="addModifUtilisateurValidator" class="web.administration.AddModifUtilisateurValidator" />
+ 	<bean name="addModifThemeValidator" class="web.carrieres.AddModifThemeValidator" />
+ 	<bean name="addModifCategorieValidator" class="web.carrieres.AddModifCategorieValidator" />
+ 	<bean name="addModifMetierValidator" class="web.carrieres.AddModifMetierValidator" />
+ 	<bean name="addModifCompetenceValidator" class="web.carrieres.AddModifCompetenceValidator" />
+ 	<bean name="addModifEmployeValidator" class="web.administration.AddModifEmployeValidator" />
+ 	<bean name="addModifPosteValidator" class="web.carrieres.AddModifPosteValidator" />
+ 	<bean name="addSyncFormationsValidator" class="web.formations.AddSyncFormationsValidator" />
+ 	<bean name="addModifPlanFormationValidator" class="web.formations.AddModifPlanFormationValidator">
+ 		<property name="spf" ref="servicePlanFormation" />
+ 	</bean>
+ 	<bean name="addModifSessionFormationValidator" class="web.formations.AddModifSessionFormationValidator" />
+ 	<bean name="addModifDiplomeValidator" class="web.administration.AddModifDiplomeValidator" />
+ 	<bean name="addModifEmploiPrecedentValidator" class="web.administration.AddModifEmploiPrecedentValidator" />
+ 	<bean name="addModifInscriptionValidator" class="web.formations.AddModifInscriptionValidator">
+ 		<property name="si" ref="serviceInscription" />
+ 	</bean>
+ 	<bean name="addModifEvaluationValidator" class="web.carrieres.AddModifEvaluationValidator" />
+ 	
+ 	<!-- View Resolvers -->
+	<bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="viewClass" value="org.springframework.web.servlet.view.JstlView" />
+		<property name="prefix" value="/WEB-INF/jsp/" />
+		<property name="suffix" value=".jsp" />
+	</bean>
+	
+	<!-- Multipart Resolver -->
+	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver" />
+	
+</beans>

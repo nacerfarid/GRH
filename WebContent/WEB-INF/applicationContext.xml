@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+       http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd">
+	
+	<!-- couches applicatives -->
+	<bean id="daoUtilisateur" class="dao.DaoUtilisateur" />
+	<bean id="serviceUtilisateur" class="services.ServiceUtilisateur">
+		<property name="daoUtilisateur" ref="daoUtilisateur" />
+	</bean>
+	<bean id="daoDroit" class="dao.DaoDroit" />
+	<bean id="serviceDroit" class="services.ServiceDroit">
+		<property name="daoDroit" ref="daoDroit" />
+	</bean>
+	<bean id="daoTheme" class="dao.DaoTheme" />
+	<bean id="serviceTheme" class="services.ServiceTheme">
+		<property name="daoTheme" ref="daoTheme" />
+	</bean>
+	<bean id="daoCategorie" class="dao.DaoCategorie" />
+	<bean id="serviceCategorie" class="services.ServiceCategorie">
+		<property name="daoCategorie" ref="daoCategorie" />
+	</bean>
+	<bean id="daoMetier" class="dao.DaoMetier" />
+	<bean id="serviceMetier" class="services.ServiceMetier">
+		<property name="daoMetier" ref="daoMetier" />
+	</bean>
+	<bean id="daoCivilite" class="dao.DaoCivilite" />
+	<bean id="serviceCivilite" class="services.ServiceCivilite">
+		<property name="daoCivilite" ref="daoCivilite" />
+	</bean>
+	<bean id="daoContrat" class="dao.DaoContrat" />
+	<bean id="serviceContrat" class="services.ServiceContrat">
+		<property name="daoContrat" ref="daoContrat" />
+	</bean>
+	<bean id="daoCompetence" class="dao.DaoCompetence" />
+	<bean id="serviceCompetence" class="services.ServiceCompetence">
+		<property name="daoCompetence" ref="daoCompetence" />
+	</bean>
+	<bean id="daoNiveauEtude" class="dao.DaoNiveauEtude" />
+	<bean id="serviceNiveauEtude" class="services.ServiceNiveauEtude">
+		<property name="daoNiveauEtude" ref="daoNiveauEtude" />
+	</bean>
+	<bean id="daoEmploye" class="dao.DaoEmploye" />
+	<bean id="serviceEmploye" class="services.ServiceEmploye">
+		<property name="daoEmploye" ref="daoEmploye" />
+	</bean>
+	<bean id="daoSituationFamiliale" class="dao.DaoSituationFamiliale" />
+	<bean id="serviceSituationFamiliale" class="services.ServiceSituationFamiliale">
+		<property name="daoSituationFamiliale" ref="daoSituationFamiliale" />
+	</bean>
+	<bean id="daoPoste" class="dao.DaoPoste" />
+	<bean id="servicePoste" class="services.ServicePoste">
+		<property name="daoPoste" ref="daoPoste" />
+	</bean>
+	<bean id="daoOrganisme" class="dao.DaoOrganisme" />
+	<bean id="serviceOrganisme" class="services.ServiceOrganisme">
+		<property name="daoOrganisme" ref="daoOrganisme" />
+	</bean>
+	<bean id="daoFormation" class="dao.DaoFormation" />
+	<bean id="serviceFormation" class="services.ServiceFormation">
+		<property name="daoFormation" ref="daoFormation" />
+	</bean>
+	<bean id="daoNiveauForm" class="dao.DaoNiveauForm" />
+	<bean id="serviceNiveauForm" class="services.ServiceNiveauForm">
+		<property name="daoNiveauForm" ref="daoNiveauForm" />
+	</bean>
+	<bean id="daoDiplome" class="dao.DaoDiplome" />
+	<bean id="serviceDiplome" class="services.ServiceDiplome">
+		<property name="daoDiplome" ref="daoDiplome" />
+	</bean>
+	<bean id="daoPlanFormation" class="dao.DaoPlanFormation" />
+	<bean id="servicePlanFormation" class="services.ServicePlanFormation">
+		<property name="daoPlanFormation" ref="daoPlanFormation" />
+	</bean>
+	<bean id="daoSessionFormation" class="dao.DaoSessionFormation" />
+	<bean id="serviceSessionFormation" class="services.ServiceSessionFormation">
+		<property name="daoSessionFormation" ref="daoSessionFormation" />
+	</bean>
+	<bean id="daoInscription" class="dao.DaoInscription" />
+	<bean id="serviceInscription" class="services.ServiceInscription">
+		<property name="daoInscription" ref="daoInscription" />
+	</bean>
+	<bean id="daoEmploiPrecedent" class="dao.DaoEmploiPrecedent" />
+	<bean id="serviceEmploiPrecedent" class="services.ServiceEmploiPrecedent">
+		<property name="daoEmploiPrecedent" ref="daoEmploiPrecedent" />
+	</bean>
+	<bean id="daoEvaluation" class="dao.DaoEvaluation" />
+	<bean id="serviceEvaluation" class="services.ServiceEvaluation">
+		<property name="daoEvaluation" ref="daoEvaluation" />
+	</bean>
+
+	<!-- couche de persistance JPA -->
+	<bean id="entityManagerFactory"	class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="jpaVendorAdapter">
+			<bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
+				<property name="showSql" value="true" />
+				<property name="databasePlatform"
+				value="org.hibernate.dialect.Oracle10gDialect" />
+				<property name="generateDdl" value="false" />
+			</bean>
+		</property>
+		<property name="loadTimeWeaver">
+			<bean class="org.springframework.instrument.classloading.InstrumentationLoadTimeWeaver" />
+		</property>
+	</bean>
+	<!-- la source de donnees DBCP -->
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+		<property name="driverClassName" value="oracle.jdbc.OracleDriver" />
+		<property name="url" value="jdbc:oracle:thin:@localhost:1521:XE" />
+		<property name="username" value="system" />
+		<property name="password" value="123456" />
+	</bean>
+	<!-- le gestionnaire de transactions -->
+	<tx:annotation-driven transaction-manager="txManager" />
+	<bean id="txManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+		<property name="entityManagerFactory" ref="entityManagerFactory" />
+	</bean>
+	<!-- traduction des exceptions -->
+	<bean class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor" />
+	<!-- annotations de persistance -->
+	<bean class="org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor" />	
+</beans>
